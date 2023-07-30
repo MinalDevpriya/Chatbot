@@ -1,0 +1,126 @@
+version: "3.1"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: sad path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
+
+- story: User asks about diseases related to a symptom
+  steps:
+  - intent: ask_disease
+    entities:
+    - symptom: "headache"
+  - action: action_symptom_analysis
+
+
+- story: User provides symptoms and bot suggests a disease
+  steps:
+  - intent: provide_symptoms
+    entities:
+    - symptom: "cough"
+  - action:  action_symptom_analysis
+
+
+- story: User informs about a disease and asks for treatment
+  steps:
+  - intent: inform_disease
+    entities:
+    - disease: "flu"
+  - action: action_symptom_analysis
+
+
+- story: User asks for treatment without mentioning a disease
+  steps:
+  - intent: inform_treatment
+  - action: action_symptom_analysis
+
+
+- story: User reports an unknown symptom
+  steps:
+  - intent: inform_unknown_symptom
+  - action: action_symptom_analysis
+
+
+- story: User reports an unknown disease
+  steps:
+  - intent: inform_unknown_disease
+  - action: action_symptom_analysis
+
+
+- story: User thanks and says goodbye
+  steps:
+  - intent: thank_you
+  - action: utter_you_are_welcome
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: User asks a general question
+  steps:
+  - intent: ask_question
+  - action: utter_explain_help
+
+- story: User asks unrelated question or provides unclear input
+  steps:
+  - intent: unknown
+  - action: utter_confused
+
+- story: User challenges the bot
+  steps:
+  - intent: bot_challenge
+  - action: utter_bot_challenge
+
+- story: User says goodbye with thanks
+  steps:
+  - intent: goodbye_with_thanks
+  - action: utter_goodbye_with_thanks
+
+
+- story: Inquire disease info 1
+  steps:
+  - or:
+    - intent: inquire_about_disease
+    - intent: inquire_about_disease_symptoms
+    - intent: inquire_about_disease_treatment
+  - slot_was_set:
+    - disease: null
+  - action: action_symptom_analysis
+  - intent: specify_disease
+  - slot_was_set:
+      - disease:
+  - action: action_symptom_analysis
+
+- story: Inquire disease info 2
+  steps:
+  - or:
+    - intent: inquire_about_disease
+    - intent: inquire_about_disease_symptoms
+    - intent: inquire_about_disease_treatment
+  - slot_was_set:
+    - disease: ovarian cancer
+    - treatment_info: treatment
+    - symptoms_info: symptoms
+  - action: action_symptom_analysis

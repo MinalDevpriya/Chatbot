@@ -1,0 +1,97 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - thank_you
+  - ask_disease
+  - provide_symptoms
+  - inform_disease
+  - inform_treatment
+  - inform_unknown_symptom
+  - inform_unknown_disease
+  - fallback
+  - affirm
+  - deny
+  - ask_question
+  - unknown
+  - bot_challenge
+  - goodbye_with_thanks
+
+entities:
+  - symptom
+  - disease
+
+
+slots:
+  disease:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: disease
+  symptoms_info:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_intent
+      value: symptoms
+      intent: inquire_about_disease_symptoms
+  treatment_info:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_intent
+      value: treatment
+      intent: inquire_about_disease_treatment
+
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_you_are_welcome:
+    - text: "You're welcome! If you have any more questions, feel free to ask."
+
+  utter_explain_help:
+    - text: "I'm here to provide information about diseases and their symptoms. You can ask me about specific symptoms, diseases, or their treatments."
+
+  utter_acknowledge_unknown_symptom:
+    - text: "I see. It's possible that the symptom is not in the list I have. If you have any other symptoms, feel free to let me know."
+
+  utter_acknowledge_unknown_disease:
+    - text: "I understand. If you suspect a specific disease that is not on the list, please provide more information or consult a healthcare professional."
+
+  utter_ask_for_disease:
+    - text: "Sure! Can you please mention the disease you are referring to?"
+
+  utter_confused:
+    - text: "I'm sorry, I didn't understand your input. Can you please rephrase or provide more information?"
+
+  utter_bot_challenge:
+    - text: "Yes, I am a bot. How can I assist you?"
+
+  utter_goodbye_with_thanks:
+    - text: "You're welcome! Goodbye and take care."
+
+  utter_iamabot:
+    - text: "Yes, I am a bot. How can I assist you?"
+
+actions:
+  - action_symptom_analysis
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
